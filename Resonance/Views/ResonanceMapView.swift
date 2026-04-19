@@ -3,6 +3,7 @@ import MapKit
 
 struct ResonanceMapView: View {
     @ObservedObject var viewModel: FeedViewModel
+    var showsDetailCard: Bool = true
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -13,7 +14,7 @@ struct ResonanceMapView: View {
                     viewModel.clearSelection()
                 }
 
-            if let event = viewModel.selectedEvent {
+            if showsDetailCard, let event = viewModel.selectedEvent {
                 ResonanceDetailCard(event: event)
                     .padding(.horizontal, DT.Spacing.lg)
                     .padding(.bottom, DT.Spacing.lg)

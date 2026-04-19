@@ -36,10 +36,10 @@ final class HomeViewModel: ObservableObject {
 
 extension NowPlayingInfoModel {
     static let sample = NowPlayingInfoModel(
-        rawTitle: "My Love Mine All Mine",
-        normalizedTitle: "my love mine all mine",
-        rawArtist: "Mitski",
-        normalizedArtist: "mitski",
+        rawTitle: "夜行",
+        normalizedTitle: "夜行",
+        rawArtist: "ヨルシカ",
+        normalizedArtist: "ヨルシカ",
         artworkURL: nil,
         updatedAt: Date()
     )
@@ -50,8 +50,8 @@ extension ResonanceEvent {
         ResonanceEvent(
             occurredAt: Date().addingTimeInterval(-60 * 22),
             type: .sameSong,
-            title: "My Love Mine All Mine",
-            artist: "Mitski",
+            title: "ただ君に晴れ",
+            artist: "ヨルシカ",
             locationLabel: "Shimokitazawa",
             latitude: 35.6618,
             longitude: 139.6680
@@ -59,8 +59,8 @@ extension ResonanceEvent {
         ResonanceEvent(
             occurredAt: Date().addingTimeInterval(-60 * 60 * 3),
             type: .sameArtist,
-            title: "Blinding Lights",
-            artist: "The Weeknd",
+            title: "뱃노래",
+            artist: "악동뮤지션",
             locationLabel: "Shibuya",
             latitude: 35.6580,
             longitude: 139.7016
@@ -68,8 +68,8 @@ extension ResonanceEvent {
         ResonanceEvent(
             occurredAt: Date().addingTimeInterval(-60 * 60 * 9),
             type: .sameSong,
-            title: "Pink Venom",
-            artist: "BLACKPINK",
+            title: "Wonderwall",
+            artist: "Oasis",
             locationLabel: "Harajuku",
             latitude: 35.6706,
             longitude: 139.7029
@@ -77,8 +77,8 @@ extension ResonanceEvent {
         ResonanceEvent(
             occurredAt: Date().addingTimeInterval(-60 * 60 * 27),
             type: .sameArtist,
-            title: "Chamber of Reflection",
-            artist: "Mac DeMarco",
+            title: "花に亡霊",
+            artist: "ヨルシカ",
             locationLabel: "Nakameguro",
             latitude: 35.6440,
             longitude: 139.6989
@@ -86,8 +86,8 @@ extension ResonanceEvent {
         ResonanceEvent(
             occurredAt: Date().addingTimeInterval(-60 * 60 * 50),
             type: .sameSong,
-            title: "Plastic Love",
-            artist: "Mariya Takeuchi",
+            title: "낙하",
+            artist: "악동뮤지션",
             locationLabel: "Daikanyama",
             latitude: 35.6483,
             longitude: 139.7032
@@ -95,8 +95,8 @@ extension ResonanceEvent {
         ResonanceEvent(
             occurredAt: Date().addingTimeInterval(-60 * 60 * 74),
             type: .sameArtist,
-            title: "Shinunoga E-Wa",
-            artist: "Fujii Kaze",
+            title: "Live Forever",
+            artist: "Oasis",
             locationLabel: "Koenji",
             latitude: 35.7055,
             longitude: 139.6497
