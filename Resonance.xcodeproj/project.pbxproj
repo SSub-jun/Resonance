@@ -255,9 +255,9 @@
 				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Resonance reads the title and artist of what you're currently playing so it can match with people nearby listening to the same music.";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Resonance uses Bluetooth to sense nearby listeners for a match. It never uses Bluetooth to estimate distance or anyone's location.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Resonance records your own location at the moment a match happens so you can revisit it later. Other users' locations are never saved or inferred.";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Kyomei accesses your currently playing song title and artist to detect resonance. No audio data or full listening history is accessed.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Kyomei uses Bluetooth to detect nearby devices for music resonance. We do not connect to or identify other devices.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to record where a resonance moment occurred. We do not track or identify other users.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIBackgroundModes = "bluetooth-central bluetooth-peripheral";
@@ -288,9 +288,9 @@
 				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Resonance reads the title and artist of what you're currently playing so it can match with people nearby listening to the same music.";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Resonance uses Bluetooth to sense nearby listeners for a match. It never uses Bluetooth to estimate distance or anyone's location.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Resonance records your own location at the moment a match happens so you can revisit it later. Other users' locations are never saved or inferred.";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Kyomei accesses your currently playing song title and artist to detect resonance. No audio data or full listening history is accessed.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Kyomei uses Bluetooth to detect nearby devices for music resonance. We do not connect to or identify other devices.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to record where a resonance moment occurred. We do not track or identify other users.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIBackgroundModes = "bluetooth-central bluetooth-peripheral";

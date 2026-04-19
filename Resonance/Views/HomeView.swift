@@ -15,6 +15,7 @@ struct HomeView: View {
                 topOverlay
             }
             .overlay(alignment: .bottom) { bottomOverlay }
+            .overlay(alignment: .top) { bannerOverlay }
             .animation(DT.Motion.standard, value: feedVM.selectedEventID)
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for: ListDestination.self) { _ in
@@ -56,6 +57,23 @@ struct HomeView: View {
         )
         .padding(.horizontal, DT.Spacing.md)
         .padding(.bottom, DT.Spacing.md)
+    }
+
+    @ViewBuilder
+    private var bannerOverlay: some View {
+        if let event = viewModel.activeBanner {
+            ResonanceBanner(
+                type: event.type,
+                title: event.title,
+                artist: event.artist,
+                autoDismissAfter: 3.5,
+                onDismiss: { viewModel.dismissBanner() }
+            )
+            .id(event.id)
+            .padding(.horizontal, DT.Spacing.md)
+            .padding(.top, 120)
+            .transition(.move(edge: .top).combined(with: .opacity))
+        }
     }
 
     private func handleDeepLink(_ id: UUID?) {

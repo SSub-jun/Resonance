@@ -19,12 +19,13 @@ struct ResonanceApp: App {
                     forceDarkAppearance()
                     NotificationHandler.shared.requestPermission()
                     PermissionCoordinator.shared.requestAll()
+                    AppLifecycleCoordinator.shared.bootstrap()
                 }
         }
         .onChange(of: scenePhase) { newPhase in
             forceDarkAppearance()
             if newPhase == .active {
-                NowPlayingManager.shared.refresh()
+                AppLifecycleCoordinator.shared.onBecameActive()
             }
         }
     }

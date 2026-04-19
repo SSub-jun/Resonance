@@ -9,6 +9,7 @@ final class HomeViewModel: ObservableObject {
     @Published var nowPlaying: NowPlayingInfoModel
     @Published var artworkImage: UIImage?
     @Published var recentResonances: [ResonanceEvent]
+    @Published var activeBanner: ResonanceEvent?
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -16,7 +17,9 @@ final class HomeViewModel: ObservableObject {
         status: ResonanceStatus = .running,
         nowPlaying: NowPlayingInfoModel = .empty,
         recentResonances: [ResonanceEvent] = ResonanceEvent.sampleList,
-        nowPlayingManager: NowPlayingManager = .shared
+        nowPlayingManager: NowPlayingManager = .shared,
+        settings: ResonanceSettingsStore = .shared,
+        eventBus: ResonanceEventBus = .shared
     ) {
         self.status = status
         self.nowPlaying = nowPlaying
@@ -31,6 +34,25 @@ final class HomeViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .assign(to: \.artworkImage, on: self)
             .store(in: &cancellables)
+
+        settings.$resonanceEnabled
+            .receive(on: RunLoop.main)
+            .sink { [weak self] enabled in
+                guard let self else { return }
+                if enabled {
+                    if self.status == .paused { self.status = .running }
+                } else {
+                    if self.status == .running { self.status = .paused }
+                }
+            }
+            .store(in: &cancellables)
+
+        eventBus.events
+            .receive(on: RunLoop.main)
+            .sink { [weak self] event in
+                self?.handleIncoming(event)
+            }
+            .store(in: &cancellables)
     }
 
     var isActive: Bool {
@@ -40,12 +62,22 @@ final class HomeViewModel: ObservableObject {
     func toggle() {
         switch status {
         case .running:
-            status = .paused
+            ResonanceSettingsStore.shared.resonanceEnabled = false
         case .paused:
-            status = .running
+            ResonanceSettingsStore.shared.resonanceEnabled = true
         case .permissionMissing, .unavailable:
             break
         }
+    }
+
+    func dismissBanner() {
+        activeBanner = nil
+    }
+
+    private func handleIncoming(_ event: ResonanceEvent) {
+        recentResonances.insert(event, at: 0)
+        activeBanner = event
+        ResonanceHaptics.shared.playResonance(type: event.type)
     }
 }
 
