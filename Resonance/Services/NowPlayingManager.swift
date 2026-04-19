@@ -55,6 +55,14 @@ final class NowPlayingManager: ObservableObject {
         ) { [weak self] _ in
             Task { @MainActor in self?.refresh() }
         })
+
+        observers.append(center.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in self?.refresh() }
+        })
     }
 
     func refresh() {

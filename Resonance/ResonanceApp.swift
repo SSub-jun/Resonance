@@ -21,8 +21,11 @@ struct ResonanceApp: App {
                     PermissionCoordinator.shared.requestAll()
                 }
         }
-        .onChange(of: scenePhase) { _ in
+        .onChange(of: scenePhase) { newPhase in
             forceDarkAppearance()
+            if newPhase == .active {
+                NowPlayingManager.shared.refresh()
+            }
         }
     }
 
