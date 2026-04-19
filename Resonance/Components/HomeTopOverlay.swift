@@ -7,7 +7,51 @@ struct HomeTopOverlay: View {
     var onAction: () -> Void
 
     var body: some View {
+        cardContent
+            .padding(DT.Spacing.md)
+            .background(background)
+            .overlay(border)
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+    }
+
+    // MARK: - Card content (defines the card's size, independent of isActive)
+
+    private var cardContent: some View {
+        HStack(alignment: .center, spacing: DT.Spacing.md) {
+            HStack(alignment: .center, spacing: DT.Spacing.sm) {
+                artwork
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Now Playing")
+                        .font(DT.Typography.label)
+                        .foregroundColor(DT.Palette.textTertiary)
+                        .tracking(1.0)
+
+                    Text(nowPlaying.rawTitle.isEmpty ? "Nothing is playing" : nowPlaying.rawTitle)
+                        .font(DT.Typography.titleMedium)
+                        .foregroundColor(DT.Palette.textPrimary)
+                        .lineLimit(1)
+
+                    Text(nowPlaying.rawArtist.isEmpty ? "—" : nowPlaying.rawArtist)
+                        .font(DT.Typography.caption)
+                        .foregroundColor(DT.Palette.textSecondary)
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
+            actionButton
+        }
+    }
+
+    // MARK: - Background (panel + ripple)
+
+    private var background: some View {
         ZStack {
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(DT.Palette.background.opacity(0.78))
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(.ultraThinMaterial.opacity(0.55))
             if isActive {
                 ResonanceRipple(
                     cornerRadius: 22,
@@ -15,54 +59,16 @@ struct HomeTopOverlay: View {
                     endScale: 1.0,
                     baseOpacity: 0.55
                 )
-                .allowsHitTesting(false)
             }
-
-            HStack(alignment: .center, spacing: DT.Spacing.md) {
-                HStack(alignment: .center, spacing: DT.Spacing.sm) {
-                    artwork
-
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Now Playing")
-                            .font(DT.Typography.label)
-                            .foregroundColor(DT.Palette.textTertiary)
-                            .tracking(1.0)
-
-                        Text(nowPlaying.rawTitle.isEmpty ? "Nothing is playing" : nowPlaying.rawTitle)
-                            .font(DT.Typography.titleMedium)
-                            .foregroundColor(DT.Palette.textPrimary)
-                            .lineLimit(1)
-
-                        Text(nowPlaying.rawArtist.isEmpty ? "—" : nowPlaying.rawArtist)
-                            .font(DT.Typography.caption)
-                            .foregroundColor(DT.Palette.textSecondary)
-                            .lineLimit(1)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-
-                actionButton
-            }
-            .padding(DT.Spacing.md)
-            .background(panelBackground)
-            .overlay(
-                RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .strokeBorder(DT.Palette.glassBorder, lineWidth: 1)
-            )
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
-    }
-
-    // MARK: - Subviews
-
-    private var panelBackground: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(DT.Palette.background.opacity(0.78))
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(.ultraThinMaterial.opacity(0.55))
         }
     }
+
+    private var border: some View {
+        RoundedRectangle(cornerRadius: 22, style: .continuous)
+            .strokeBorder(DT.Palette.glassBorder, lineWidth: 1)
+    }
+
+    // MARK: - Action button
 
     private var actionButton: some View {
         Button(action: onAction) {
@@ -78,6 +84,8 @@ struct HomeTopOverlay: View {
         }
         .buttonStyle(.plain)
     }
+
+    // MARK: - Artwork
 
     private var artwork: some View {
         Group {
