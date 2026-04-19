@@ -18,6 +18,7 @@ struct ResonanceApp: App {
                 .onAppear {
                     forceDarkAppearance()
                     NotificationHandler.shared.requestPermission()
+                    PermissionCoordinator.shared.requestAll()
                 }
         }
         .onChange(of: scenePhase) { _ in
