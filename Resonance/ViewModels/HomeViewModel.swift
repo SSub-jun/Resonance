@@ -10,7 +10,7 @@ final class HomeViewModel: ObservableObject {
 
     init(
         status: ResonanceStatus = .running,
-        nowPlaying: NowPlayingInfoModel = .sample,
+        nowPlaying: NowPlayingInfoModel = .empty,
         recentResonances: [ResonanceEvent] = ResonanceEvent.sampleList
     ) {
         self.status = status
