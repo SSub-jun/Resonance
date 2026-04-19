@@ -5,7 +5,8 @@ struct ResonanceRipple: View {
     var cornerRadius: CGFloat = DT.Glass.cornerRadius
     var ringCount: Int = 3
     var duration: Double = 3.2
-    var maxScale: CGFloat = 1.16
+    var startScale: CGFloat = 1.0
+    var endScale: CGFloat = 1.16
     var baseOpacity: Double = 0.48
     var lineWidth: CGFloat = 1.4
 
@@ -19,7 +20,7 @@ struct ResonanceRipple: View {
                         color.opacity(animate ? 0.0 : baseOpacity),
                         lineWidth: lineWidth
                     )
-                    .scaleEffect(animate ? maxScale : 1.0)
+                    .scaleEffect(animate ? endScale : startScale)
                     .animation(
                         .easeOut(duration: duration)
                             .repeatForever(autoreverses: false)

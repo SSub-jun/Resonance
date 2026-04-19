@@ -9,8 +9,13 @@ struct HomeTopOverlay: View {
     var body: some View {
         ZStack {
             if isActive {
-                ResonanceRipple(cornerRadius: 22)
-                    .allowsHitTesting(false)
+                ResonanceRipple(
+                    cornerRadius: 22,
+                    startScale: 0.82,
+                    endScale: 1.0,
+                    baseOpacity: 0.55
+                )
+                .allowsHitTesting(false)
             }
 
             HStack(alignment: .center, spacing: DT.Spacing.md) {
@@ -44,8 +49,8 @@ struct HomeTopOverlay: View {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .strokeBorder(DT.Palette.glassBorder, lineWidth: 1)
             )
-            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         }
+        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
     }
 
     // MARK: - Subviews

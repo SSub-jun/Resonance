@@ -68,8 +68,12 @@ struct HomeView: View {
     }
 
     private func handleListSelection(_ event: ResonanceEvent) {
-        withAnimation(DT.Motion.standard) { feedVM.select(event) }
         if path.count > 0 { path.removeLast(path.count) }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.38) {
+            withAnimation(.easeInOut(duration: 0.5)) {
+                feedVM.select(event)
+            }
+        }
     }
 }
 
