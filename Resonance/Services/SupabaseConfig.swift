@@ -1,8 +1,8 @@
 import Foundation
 
 enum SupabaseConfig {
-    static let baseURL = URL(string: "https://pjbrvkzyxnjhhifqkdyz.supabase.co")!
-    static let anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqYnJ2a3p5eG5qaGhpZnFrZHl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4NjM1MjYsImV4cCI6MjA4ODQzOTUyNn0.Hxhx27c0ZnqXp82FwfJxNq8_sbb12pCK7rIJL7XcqbQ"
+    static let baseURL = URL(string: "https://daxfkooxhwpsgexczfal.supabase.co")!
+    static let anonKey = "sb_publishable_fgljBnHxQ_kfiDjc_M-0Bg_kNr_dR0M"
 
     enum Table {
         static let users = "kyomei_users"
