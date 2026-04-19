@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeTopOverlay: View {
     let nowPlaying: NowPlayingInfoModel
+    let artworkImage: UIImage?
     let actionLabel: String
     let isActive: Bool
     var onAction: () -> Void
@@ -96,7 +97,9 @@ struct HomeTopOverlay: View {
 
     private var artwork: some View {
         Group {
-            if hasMedia, let url = nowPlaying.artworkURL {
+            if let image = artworkImage {
+                Image(uiImage: image).resizable().scaledToFill()
+            } else if hasMedia, let url = nowPlaying.artworkURL {
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .success(let image):

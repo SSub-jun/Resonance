@@ -1,21 +1,36 @@
 import Foundation
 import SwiftUI
+import UIKit
 import Combine
 
 @MainActor
 final class HomeViewModel: ObservableObject {
     @Published var status: ResonanceStatus = .running
     @Published var nowPlaying: NowPlayingInfoModel
+    @Published var artworkImage: UIImage?
     @Published var recentResonances: [ResonanceEvent]
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(
         status: ResonanceStatus = .running,
         nowPlaying: NowPlayingInfoModel = .empty,
-        recentResonances: [ResonanceEvent] = ResonanceEvent.sampleList
+        recentResonances: [ResonanceEvent] = ResonanceEvent.sampleList,
+        nowPlayingManager: NowPlayingManager = .shared
     ) {
         self.status = status
         self.nowPlaying = nowPlaying
         self.recentResonances = recentResonances
+
+        nowPlayingManager.$info
+            .receive(on: RunLoop.main)
+            .assign(to: \.nowPlaying, on: self)
+            .store(in: &cancellables)
+
+        nowPlayingManager.$artworkImage
+            .receive(on: RunLoop.main)
+            .assign(to: \.artworkImage, on: self)
+            .store(in: &cancellables)
     }
 
     var isActive: Bool {

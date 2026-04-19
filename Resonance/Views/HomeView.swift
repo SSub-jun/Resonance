@@ -33,6 +33,7 @@ struct HomeView: View {
     private var topOverlay: some View {
         HomeTopOverlay(
             nowPlaying: viewModel.nowPlaying,
+            artworkImage: viewModel.artworkImage,
             actionLabel: viewModel.status.actionLabel,
             isActive: viewModel.isActive
         ) {
