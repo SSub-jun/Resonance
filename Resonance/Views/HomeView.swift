@@ -30,10 +30,12 @@ struct HomeView: View {
         .onChange(of: router.pendingEventID) { handleDeepLink($0) }
     }
 
-    // MARK: - Sections
-
     private var topOverlay: some View {
-        HomeTopOverlay(status: viewModel.status) {
+        HomeTopOverlay(
+            nowPlaying: viewModel.nowPlaying,
+            actionLabel: viewModel.status.actionLabel,
+            isActive: viewModel.isActive
+        ) {
             withAnimation(DT.Motion.standard) { viewModel.toggle() }
         }
         .padding(.horizontal, DT.Spacing.md)
@@ -41,31 +43,19 @@ struct HomeView: View {
     }
 
     private var bottomOverlay: some View {
-        VStack(spacing: DT.Spacing.sm) {
-            if let event = feedVM.selectedEvent {
-                ResonanceDetailCard(event: event)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+        HomeBottomPanel(
+            selectedEvent: feedVM.selectedEvent,
+            recent: viewModel.recentResonances,
+            onSelectEvent: { event in
+                withAnimation(DT.Motion.standard) { feedVM.select(event) }
+            },
+            onOpenList: {
+                path.append(ListDestination())
             }
-
-            HomeBottomPanel(
-                nowPlaying: viewModel.nowPlaying,
-                isActive: viewModel.isActive,
-                recent: viewModel.recentResonances,
-                onSelectEvent: { event in
-                    withAnimation(DT.Motion.standard) {
-                        feedVM.select(event)
-                    }
-                },
-                onOpenList: {
-                    path.append(ListDestination())
-                }
-            )
-        }
+        )
         .padding(.horizontal, DT.Spacing.md)
         .padding(.bottom, DT.Spacing.md)
     }
-
-    // MARK: - Logic
 
     private func handleDeepLink(_ id: UUID?) {
         guard let id,
@@ -73,16 +63,12 @@ struct HomeView: View {
             return
         }
         if path.count > 0 { path.removeLast(path.count) }
-        withAnimation(DT.Motion.standard) {
-            feedVM.select(event)
-        }
+        withAnimation(DT.Motion.standard) { feedVM.select(event) }
         DispatchQueue.main.async { router.pendingEventID = nil }
     }
 
     private func handleListSelection(_ event: ResonanceEvent) {
-        withAnimation(DT.Motion.standard) {
-            feedVM.select(event)
-        }
+        withAnimation(DT.Motion.standard) { feedVM.select(event) }
         if path.count > 0 { path.removeLast(path.count) }
     }
 }
