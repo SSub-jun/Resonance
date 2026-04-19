@@ -65,21 +65,24 @@ struct HomeBottomPanel: View {
             Spacer()
 
             Button(action: onOpenList) {
-                HStack(spacing: 3) {
+                HStack(spacing: 4) {
                     Text("LIST")
                         .font(DT.Typography.label)
                         .tracking(1.2)
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 9, weight: .semibold))
+                        .font(.system(size: 10, weight: .semibold))
                 }
                 .foregroundColor(DT.Palette.textSecondary)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 8)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
         }
-        .padding(.horizontal, DT.Spacing.md)
-        .padding(.top, 10)
-        .padding(.bottom, 6)
+        .padding(.leading, DT.Spacing.md)
+        .padding(.trailing, 6)
+        .padding(.top, 14)
+        .padding(.bottom, 8)
     }
 
     private var recentRows: some View {
@@ -137,8 +140,8 @@ private struct CompactRecentRow: View {
     let event: ResonanceEvent
 
     var body: some View {
-        HStack(spacing: DT.Spacing.sm) {
-            VStack(alignment: .leading, spacing: 1) {
+        HStack(spacing: DT.Spacing.md) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(event.title)
                     .font(DT.Typography.body)
                     .foregroundColor(DT.Palette.textPrimary)
@@ -152,14 +155,14 @@ private struct CompactRecentRow: View {
             Spacer(minLength: DT.Spacing.sm)
 
             Image(systemName: event.type == .sameSong ? "music.note" : "person.fill")
-                .font(.system(size: 11, weight: .semibold))
+                .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(DT.Palette.accent)
-                .frame(width: 24, height: 24)
+                .frame(width: 30, height: 30)
                 .background(Circle().fill(DT.Palette.glassFill))
                 .overlay(Circle().strokeBorder(DT.Palette.glassBorder, lineWidth: 0.5))
         }
         .padding(.horizontal, DT.Spacing.md)
-        .padding(.vertical, 8)
+        .padding(.vertical, 14)
         .contentShape(Rectangle())
     }
 }

@@ -6,15 +6,22 @@ struct HomeTopOverlay: View {
     let isActive: Bool
     var onAction: () -> Void
 
+    private var hasMedia: Bool {
+        !nowPlaying.rawTitle.isEmpty || !nowPlaying.rawArtist.isEmpty
+    }
+
+    private var showsRipple: Bool {
+        isActive && hasMedia
+    }
+
     var body: some View {
         cardContent
             .padding(DT.Spacing.md)
             .background(background)
             .overlay(border)
-            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
     }
 
-    // MARK: - Card content (defines the card's size, independent of isActive)
+    // MARK: - Card content
 
     private var cardContent: some View {
         HStack(alignment: .center, spacing: DT.Spacing.md) {
@@ -22,19 +29,19 @@ struct HomeTopOverlay: View {
                 artwork
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Now Playing")
+                    Text(hasMedia ? "Now Playing" : "Standby")
                         .font(DT.Typography.label)
                         .foregroundColor(DT.Palette.textTertiary)
                         .tracking(1.0)
 
-                    Text(nowPlaying.rawTitle.isEmpty ? "Nothing is playing" : nowPlaying.rawTitle)
+                    Text(hasMedia ? nowPlaying.rawTitle : "No music detected")
                         .font(DT.Typography.titleMedium)
-                        .foregroundColor(DT.Palette.textPrimary)
+                        .foregroundColor(hasMedia ? DT.Palette.textPrimary : DT.Palette.textSecondary)
                         .lineLimit(1)
 
-                    Text(nowPlaying.rawArtist.isEmpty ? "—" : nowPlaying.rawArtist)
+                    Text(hasMedia ? nowPlaying.rawArtist : "Play something to resonate")
                         .font(DT.Typography.caption)
-                        .foregroundColor(DT.Palette.textSecondary)
+                        .foregroundColor(DT.Palette.textTertiary)
                         .lineLimit(1)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -44,7 +51,7 @@ struct HomeTopOverlay: View {
         }
     }
 
-    // MARK: - Background (panel + ripple)
+    // MARK: - Background (panel + ripple extending outward)
 
     private var background: some View {
         ZStack {
@@ -52,11 +59,11 @@ struct HomeTopOverlay: View {
                 .fill(DT.Palette.background.opacity(0.78))
             RoundedRectangle(cornerRadius: 22, style: .continuous)
                 .fill(.ultraThinMaterial.opacity(0.55))
-            if isActive {
+            if showsRipple {
                 ResonanceRipple(
                     cornerRadius: 22,
-                    startScale: 0.82,
-                    endScale: 1.0,
+                    startScale: 1.0,
+                    endScale: 1.18,
                     baseOpacity: 0.55
                 )
             }
@@ -89,17 +96,17 @@ struct HomeTopOverlay: View {
 
     private var artwork: some View {
         Group {
-            if let url = nowPlaying.artworkURL {
+            if hasMedia, let url = nowPlaying.artworkURL {
                 AsyncImage(url: url) { phase in
                     switch phase {
                     case .success(let image):
                         image.resizable().scaledToFill()
                     default:
-                        artworkPlaceholder
+                        artworkPlaceholder(muted: false)
                     }
                 }
             } else {
-                artworkPlaceholder
+                artworkPlaceholder(muted: !hasMedia)
             }
         }
         .frame(width: 44, height: 44)
@@ -110,11 +117,11 @@ struct HomeTopOverlay: View {
         )
     }
 
-    private var artworkPlaceholder: some View {
+    private func artworkPlaceholder(muted: Bool) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(DT.Palette.glassFill)
-            Image(systemName: "music.note")
+            Image(systemName: muted ? "waveform.slash" : "music.note")
                 .font(.system(size: 16, weight: .regular))
                 .foregroundColor(DT.Palette.textTertiary)
         }
