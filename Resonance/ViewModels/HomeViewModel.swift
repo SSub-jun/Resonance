@@ -38,8 +38,8 @@ extension NowPlayingInfoModel {
     static let sample = NowPlayingInfoModel(
         rawTitle: "夜行",
         normalizedTitle: "夜行",
-        rawArtist: "ヨルシカ",
-        normalizedArtist: "ヨルシカ",
+        rawArtist: "Yorushika",
+        normalizedArtist: "yorushika",
         artworkURL: nil,
         updatedAt: Date()
     )
@@ -51,7 +51,7 @@ extension ResonanceEvent {
             occurredAt: Date().addingTimeInterval(-60 * 22),
             type: .sameSong,
             title: "ただ君に晴れ",
-            artist: "ヨルシカ",
+            artist: "Yorushika",
             locationLabel: "Shimokitazawa",
             latitude: 35.6618,
             longitude: 139.6680
@@ -60,7 +60,7 @@ extension ResonanceEvent {
             occurredAt: Date().addingTimeInterval(-60 * 60 * 3),
             type: .sameArtist,
             title: "뱃노래",
-            artist: "악동뮤지션",
+            artist: "AKMU",
             locationLabel: "Shibuya",
             latitude: 35.6580,
             longitude: 139.7016
@@ -78,7 +78,7 @@ extension ResonanceEvent {
             occurredAt: Date().addingTimeInterval(-60 * 60 * 27),
             type: .sameArtist,
             title: "花に亡霊",
-            artist: "ヨルシカ",
+            artist: "Yorushika",
             locationLabel: "Nakameguro",
             latitude: 35.6440,
             longitude: 139.6989
@@ -87,7 +87,7 @@ extension ResonanceEvent {
             occurredAt: Date().addingTimeInterval(-60 * 60 * 50),
             type: .sameSong,
             title: "낙하",
-            artist: "악동뮤지션",
+            artist: "AKMU",
             locationLabel: "Daikanyama",
             latitude: 35.6483,
             longitude: 139.7032

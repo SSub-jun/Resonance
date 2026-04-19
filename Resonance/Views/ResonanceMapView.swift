@@ -48,13 +48,11 @@ struct ResonanceMapView: View {
     private var mapOverlay: some View {
         LinearGradient(
             colors: [
-                DT.Palette.background.opacity(0.55),
-                .clear,
-                .clear,
-                DT.Palette.background.opacity(0.55)
+                DT.Palette.background.opacity(0.4),
+                .clear
             ],
             startPoint: .top,
-            endPoint: .bottom
+            endPoint: .center
         )
         .allowsHitTesting(false)
     }
