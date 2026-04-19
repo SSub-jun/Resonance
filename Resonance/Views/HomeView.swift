@@ -27,7 +27,10 @@ struct HomeView: View {
             }
         }
         .tint(DT.Palette.accent)
-        .onAppear { handleDeepLink(router.pendingEventID) }
+        .onAppear {
+            handleDeepLink(router.pendingEventID)
+            Task { await viewModel.refreshFromServer() }
+        }
         .onChange(of: router.pendingEventID) { handleDeepLink($0) }
     }
 

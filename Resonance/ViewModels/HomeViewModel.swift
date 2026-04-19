@@ -74,6 +74,19 @@ final class HomeViewModel: ObservableObject {
         activeBanner = nil
     }
 
+    /// Pull recent events from Supabase and merge with any locally-held ones.
+    func refreshFromServer() async {
+        do {
+            let remote = try await ResonanceAPIClient.shared.fetchMyEvents(limit: 50)
+            let keepLocal = recentResonances.filter { local in
+                !remote.contains(where: { $0.id == local.id })
+            }
+            recentResonances = (remote + keepLocal).sorted { $0.occurredAt > $1.occurredAt }
+        } catch {
+            // Server may not be reachable yet; local state stays.
+        }
+    }
+
     private func handleIncoming(_ event: ResonanceEvent) {
         recentResonances.insert(event, at: 0)
         activeBanner = event

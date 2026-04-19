@@ -7,6 +7,8 @@ final class FeedViewModel: ObservableObject {
     @Published var events: [ResonanceEvent]
     @Published var region: MKCoordinateRegion
     @Published var selectedEventID: UUID?
+    @Published private(set) var isLoading = false
+    @Published private(set) var lastError: String?
 
     init(
         events: [ResonanceEvent],
@@ -52,5 +54,28 @@ final class FeedViewModel: ObservableObject {
 
     func clearSelection() {
         selectedEventID = nil
+    }
+
+    /// Fetch events from Supabase. Merges with any existing local/sample list,
+    /// preferring server rows when IDs collide.
+    func refreshFromServer() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            let remote = try await ResonanceAPIClient.shared.fetchMyEvents(limit: 100)
+            let keepLocal = events.filter { local in
+                !remote.contains(where: { $0.id == local.id })
+            }
+            self.events = (remote + keepLocal).sorted { $0.occurredAt > $1.occurredAt }
+            self.lastError = nil
+        } catch {
+            self.lastError = String(describing: error)
+        }
+    }
+
+    func delete(_ event: ResonanceEvent) async {
+        events.removeAll { $0.id == event.id }
+        if selectedEventID == event.id { selectedEventID = nil }
+        try? await ResonanceAPIClient.shared.deleteEvent(id: event.id)
     }
 }

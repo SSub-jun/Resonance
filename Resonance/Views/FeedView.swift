@@ -31,6 +31,7 @@ struct FeedView: View {
                 FeedToggle(selection: $mode)
             }
         }
+        .task { await viewModel.refreshFromServer() }
     }
 
     private func handleListSelect(_ event: ResonanceEvent) {

@@ -11,9 +11,7 @@ final class AppLifecycleCoordinator: ObservableObject {
 
     private init() {}
 
-    /// Called once on app launch. Wires up cross-service observations so that
-    /// (a) NowPlayingManager updates flow into BLEManager's advertised payload,
-    /// (b) BLE starts whenever the toggle is on and permissions allow.
+    /// Called once on app launch.
     func bootstrap() {
         guard !started else { return }
         started = true
@@ -33,16 +31,28 @@ final class AppLifecycleCoordinator: ObservableObject {
                 self?.applyEnabled(enabled)
             }
             .store(in: &cancellables)
+
+        // Detected resonance → persist to server (or enqueue on failure)
+        ResonanceEventBus.shared.events
+            .receive(on: RunLoop.main)
+            .sink { event in
+                Task { await AppLifecycleCoordinator.persist(event) }
+            }
+            .store(in: &cancellables)
+
+        // Register device + drain any queued events
+        Task { await registerAndDrain() }
     }
 
-    /// Called on scenePhase transitions. Runs a lightweight health check.
+    /// Called on scenePhase transitions to .active.
     func onBecameActive() {
         let enabled = ResonanceSettingsStore.shared.resonanceEnabled
         applyEnabled(enabled)
         NowPlayingManager.shared.refresh()
+        Task { await registerAndDrain() }
     }
 
-    // MARK: - Internal
+    // MARK: - Helpers
 
     private func applyEnabled(_ enabled: Bool) {
         if enabled {
@@ -52,6 +62,26 @@ final class AppLifecycleCoordinator: ObservableObject {
         } else {
             BLEManager.shared.stop()
             LocationManager.shared.stopMonitoring()
+        }
+    }
+
+    private func registerAndDrain() async {
+        let deviceID = ResonanceSettingsStore.shared.anonymousDeviceID
+        do {
+            _ = try await ResonanceAPIClient.shared.ensureRegistered(deviceID: deviceID)
+            await OfflineEventQueue.shared.drain(deviceID: deviceID)
+        } catch {
+            // Network or server hiccup — next activation retries.
+        }
+    }
+
+    /// Persist a single resonance event. Falls back to offline queue on failure.
+    static func persist(_ event: ResonanceEvent) async {
+        let deviceID = await ResonanceSettingsStore.shared.anonymousDeviceID
+        do {
+            _ = try await ResonanceAPIClient.shared.saveEvent(event, deviceID: deviceID)
+        } catch {
+            await OfflineEventQueue.shared.enqueue(event)
         }
     }
 }
