@@ -255,8 +255,12 @@
 				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Resonance reads the title and artist of what you're currently playing so it can match with people nearby listening to the same music.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Resonance uses Bluetooth to sense nearby listeners for a match. It never uses Bluetooth to estimate distance or anyone's location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Resonance records your own location at the moment a match happens so you can revisit it later. Other users' locations are never saved or inferred.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIBackgroundModes = "bluetooth-central bluetooth-peripheral";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -284,8 +288,12 @@
 				DEVELOPMENT_TEAM = 5Z2TRCRXZZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Resonance reads the title and artist of what you're currently playing so it can match with people nearby listening to the same music.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Resonance uses Bluetooth to sense nearby listeners for a match. It never uses Bluetooth to estimate distance or anyone's location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Resonance records your own location at the moment a match happens so you can revisit it later. Other users' locations are never saved or inferred.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIBackgroundModes = "bluetooth-central bluetooth-peripheral";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
